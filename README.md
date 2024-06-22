@@ -41,3 +41,23 @@ Header files used :
 The master and the slave communicate via Modbus TCP. Please ensure the following steps have been taken :
 1. Replace the "ssid" and "password" variables of both the master and slave codes. We have used the ssid and password of mobile hotspot to achieve the communication.
 2. Make sure to run the slave code once to determine it's IP Address. Once found, replace the IP Address in the master code with the slave IP address.
+
+## Reading input registers with dynamic slave IP address (Modbus TCP)
+[readWithDynamicIPMaster.ino](./ModBusTCP/readWithDynamicIP/readWithDynamicIPMaster/readWithDynamicIPMaster.ino), 
+[readWithDynamicIPSlave.ino](./ModBusTCP/readWithDynamicIP/readWithDynamicIPSlave/readWithDynamicIPSlave.ino)
+
+Header files used : 
+1. WiFi.h
+2. ModbusIP_ESP8266.h
+3. WiFiUdp.h
+
+The problem with the previous code (Writing holding registers) is that we need to figure out the slave IP address first and then give it to the master manually. This is a very inefficient process. 
+
+This problem can easily be eliminated using Slave IDs, just like ModBusRTU. We follow the given steps :
+1. Set a Slave ID (say 1) in both the master and the slave
+2. The master will send a broadcast, which includes the slave ID
+3. The slave will be coded in such a way that it will only respond if the broadcast contains that Slave ID
+4. Upon receiving broadcast containing the Slave ID, the slave will transmit it's IP Address to the master
+5. The master will now know which IP Address the slave with the particular Slave ID sits at
+
+This process can also be used for multiple slaves. We will be attempting to achieve the same (alongwith using our PC as the master instead of ESP-32) in upcoming examples.
