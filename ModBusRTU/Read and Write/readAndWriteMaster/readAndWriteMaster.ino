@@ -1,3 +1,16 @@
+/*
+Using serial communication to write a holding register inside the slave
+
+RX and TX pins of one controller is connected to the opposite pin of the other controller, i.e,
+RX (Master) -> TX (Slave)
+TX (Master) -> RX (Slave)
+
+GREENREG and REDREG are registers for external LEDs which we used for demonstration purposes.
+They are NOT NECESSARY for the Modbus functionality
+
+Refer to comments in the code for more details
+*/
+
 #include <ModbusRTU.h>
 
 #define RX 13
@@ -15,15 +28,24 @@ bool greenWriteTask = false;
 bool redWriteTask = false;
 bool readTask = false;
 
+/*
+The above task variables are necessary due to asynchronous nature of ModbusRTU. If you try to write
+two mb.writeHreg() statements one after the other, only the first one gets executed
+
+To avoid this, we only move on once all the commands are executed, for which the task variables are required
+We assign these variables true inside the callback function, ensuring that the command has been executed
+When all the commands are executed, we make them false once again, and the cycle repeats.
+*/
+
 void setup() {
   Serial.begin(9600, SERIAL_8N1);
   Serial2.begin(9600, SERIAL_8N1, RX, TX);
-  mb.begin(&Serial2);
-  mb.master();
+  mb.begin(&Serial2); //Initializes Modbus on Serial2 Channel
+  mb.master(); //Tells the current device that it is the master
 }
 
 void loop() {
-  mb.task();
+  mb.task(); //The magic function which handles all the communication
 
   if (!mb.slave()) {
 
@@ -37,6 +59,7 @@ void loop() {
 
     if(greenWriteTask && redWriteTask && !readTask){
       mb.readIreg(SLAVE_ID, 1, values, 4, cbRead);
+      //mb.readIreg(SLAVE_ID, STARTING_ADDRESS, ADDRESS_TO_STORE, NUMBER_OF_REGISTERS, CALLBACK_FUNC);
     }
 
     if(greenWriteTask && redWriteTask && readTask){

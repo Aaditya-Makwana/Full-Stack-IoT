@@ -1,3 +1,20 @@
+/*
+Using serial communication to write a holding register inside the slave
+
+RX and TX pins of one controller is connected to the opposite pin of the other controller, i.e,
+RX (Master) -> TX (Slave)
+TX (Master) -> RX (Slave)
+
+GREENREG and REDREG are registers for external LEDs which we used for demonstration purposes.
+They are NOT NECESSARY for the Modbus functionality
+
+Similarly, POT_PIN_ONE ... are pins we used for an external device. Again, this is for demonstration
+purposes and NOT NECESSARY for Modbus functionality
+
+Refer to comments in the code for more details
+*/
+
+
 #include <ModbusRTU.h>
 
 #define RX 13
@@ -26,14 +43,14 @@ void setup() {
   pinMode(LED_RED, OUTPUT);
   Serial.begin(9600, SERIAL_8N1);
   Serial2.begin(9600, SERIAL_8N1, RX, TX);
-  mb.begin(&Serial2);
+  mb.begin(&Serial2); //Initialize Modbus on Serial2 Channel
   mb.setBaudrate(9600);
   mb.slave(SLAVE_ID);
   for(int i = 0;i<4;i++){
-    mb.addIreg(addr[i]);
+    mb.addIreg(addr[i]);  //Assign register addr[i] to be an input register
   }
   mb.addHreg(GREENREG, 0);
-  mb.addHreg(REDREG, 0);
+  mb.addHreg(REDREG, 0); //Assign GREENREG and REDREG to be a holding register with inital value 0
 }
 
 void loop() {
@@ -59,12 +76,11 @@ void loop() {
   }
 
   for(int i = 0;i<4;i++){
-    mb.Ireg(addr[i], values[i]);
+    mb.Ireg(addr[i], values[i]); //Write values[i] on input register addr[i]
   }
 
   updateLedState();
-
-  //printValues();
+  //printValues(); //printing just to confirm that registers are updated
   delay(100);
 }
 
