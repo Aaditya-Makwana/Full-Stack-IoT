@@ -67,7 +67,7 @@ def write_holding_registers(client):
 def index():
     global register_values
     template = '''
-    <!doctype html>
+  <!doctype html>
     <html lang="en">
       <head>
         <meta charset="utf-8">
@@ -76,7 +76,7 @@ def index():
         <style>
           body {
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            background-image: url('{{ url_for('static', filename='wallpaper.jpg') }}');
             color: #343a40;
             padding: 20px;
           }
@@ -91,7 +91,7 @@ def index():
           h1 {
             font-size: 2.5rem;
             margin-bottom: 20px;
-            color: #007bff;
+            color: #03045e;
           }
           .lead {
             font-size: 1.25rem;
@@ -110,10 +110,14 @@ def index():
           ul li span {
             font-weight: bold;
           }
-          input[type="number"] {
-            width: calc(50% - 10px);
-            padding: 10px;
+          .input-container {
+            display: flex;
+            gap: 10px;
             margin-bottom: 20px;
+          }
+          input[type="number"] {
+            flex: 1;
+            padding: 10px;
             border: 1px solid #ced4da;
             border-radius: 5px;
           }
@@ -168,8 +172,10 @@ def index():
             <li>Register 3: <span id="reg3">0</span></li>
             <li>Register 4: <span id="reg4">0</span></li>
           </ul>
-          <input type="number" id="value5" placeholder="Value for Register 5" />
-          <input type="number" id="value6" placeholder="Value for Register 6" />
+          <div class="input-container">
+            <input type="number" id="value5" placeholder="Value for Register 5" />
+            <input type="number" id="value6" placeholder="Value for Register 6" />
+          </div>
           <button onclick="updateRegisters()">Update Registers</button>
         </div>
       </body>
