@@ -67,31 +67,46 @@ def write_holding_registers(client):
 def index():
     global register_values
     template = '''
-  <!doctype html>
+  
+    <!doctype html>
     <html lang="en">
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Modbus Data Dashboard</title>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <style>
           body {
-            font-family: Arial, sans-serif;
-            background-image: url('{{ url_for('static', filename='wallpaper.jpg') }}');
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom, #03045e, black, #03045e);
             color: #343a40;
             padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
           }
           .container {
             max-width: 600px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
           }
           h1 {
             font-size: 2.5rem;
             margin-bottom: 20px;
             color: #03045e;
+            animation: shine 2s infinite;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+          }
+          @keyframes shine {
+            0% { color: #03045e; }
+            50% { color: #007bff; }
+            100% { color: #03045e; }
           }
           .lead {
             font-size: 1.25rem;
@@ -106,6 +121,10 @@ def index():
             background-color: #e9ecef;
             margin-bottom: 10px;
             border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1rem;
           }
           ul li span {
             font-weight: bold;
@@ -120,19 +139,26 @@ def index():
             padding: 10px;
             border: 1px solid #ced4da;
             border-radius: 5px;
+            transition: border-color 0.3s;
+          }
+          input[type="number"]:focus {
+            border-color: #007bff;
+            outline: none;
           }
           button {
             display: block;
             width: 100%;
             padding: 10px;
-            background-color: #007bff;
+            background-color: #03045e;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
           }
           button:hover {
-            background-color: #0056b3;
+            background-color: #007bff;
           }
         </style>
         <script>
@@ -164,7 +190,7 @@ def index():
       </head>
       <body>
         <div class="container">
-          <h1 class="mt-5">Modbus Data Dashboard</h1>
+          <h1>Modbus Data Dashboard</h1>
           <p class="lead">Displaying the values of 4 input registers:</p>
           <ul>
             <li>Register 1: <span id="reg1">0</span></li>
@@ -180,6 +206,7 @@ def index():
         </div>
       </body>
     </html>
+    
     '''
     return render_template_string(template)
 
