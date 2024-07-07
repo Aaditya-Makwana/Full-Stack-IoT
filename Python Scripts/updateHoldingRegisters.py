@@ -1,19 +1,17 @@
 import socket
 from pymodbus.client import ModbusTcpClient
 import time
-from threading import Thread  # Import Thread from threading module
+from threading import Thread
 from flask import Flask, jsonify, render_template_string, request
 
-# Network settings
 UDP_PORT = 4210
 SLAVE_ID = 1
 BROADCAST_IP = '255.255.255.255'
 MODBUS_PORT = 502
 
-# Flask app setup
 app = Flask(__name__)
-register_values = [0, 0, 0, 0]  # Placeholder for register values
-holding_register_values = [0, 0]  # Placeholder for values to be written to registers 5 and 6
+register_values = [0, 0, 0, 0] 
+holding_register_values = [0, 0]
 
 # Discover the slave IP using UDP broadcast
 def discover_slave():
@@ -35,11 +33,10 @@ def discover_slave():
     finally:
         sock.close()
 
-# Read input registers
 def read_input_registers(client):
     global register_values
     try:
-        result = client.read_input_registers(1, 4, unit=1)  # Read 4 registers
+        result = client.read_input_registers(1, 4, unit=1)
         if result.isError():
             print(f"Error reading input registers: {result}")
         else:
@@ -48,13 +45,12 @@ def read_input_registers(client):
     except Exception as e:
         print(f"Exception in Modbus read loop: {e}")
 
-# Write values to holding registers
 def write_holding_registers(client):
     global holding_register_values
     try:
         for i, value in enumerate(holding_register_values):
             register = 5 + i
-            result = client.write_register(register, value, unit=1)  # Write to specified register
+            result = client.write_register(register, value, unit=1)
             if result.isError():
                 print(f"Error writing to holding register {register}: {result}")
             else:
@@ -62,7 +58,6 @@ def write_holding_registers(client):
     except Exception as e:
         print(f"Exception while writing to holding register: {e}")
 
-# Flask route to display the values
 @app.route('/')
 def index():
     global register_values
@@ -210,13 +205,11 @@ def index():
     '''
     return render_template_string(template)
 
-# Flask route to return register values as JSON
 @app.route('/data')
 def data():
     global register_values
     return jsonify({'input_registers': register_values})
 
-# Flask route to handle register update
 @app.route('/update', methods=['POST'])
 def update():
     global holding_register_values
@@ -224,7 +217,6 @@ def update():
     holding_register_values = [int(value) for value in data['values']]
     return '', 204
 
-# Main function
 def main():
     slave_ip = discover_slave()
     if not slave_ip:
@@ -243,9 +235,7 @@ def main():
         time.sleep(1)
 
 if __name__ == "__main__":
-    # Start Flask server in a separate thread
     flask_thread = Thread(target=lambda: app.run(host='0.0.0.0', port=5000, debug=True, use_reloader=False))
     flask_thread.start()
     
-    # Run the main loop
     main()

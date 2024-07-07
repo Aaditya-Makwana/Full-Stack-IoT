@@ -5,6 +5,12 @@ This project includes the development of an IoT system. Initial configurations i
 The basic description of code files will be updated in the ReadMe.
 Thank you!
 
+# Table of Contents
+
+1. MODBUS RTU
+2. MODBUS TCP
+3. PYTHON SCRIPTS
+
 # MODBUS RTU
 
 ## Writing into a single holding register
@@ -84,3 +90,43 @@ In order to view the dashboard on your PC, follow the steps given below :
 3. Open your browser and type in the IP address of master. You should see the data from the slave being displayed
 
 Auto update is yet to be implemented.
+
+# Python Scripts
+
+The python scripts are for the purpose of having your pc act as a master instead of an ESP32 controller. The description for each of the files is given below.
+
+## Displaying input registers on your terminal
+[printOnTerminal.py](./Python%20Scripts/printOnTerminal.py)
+
+Imports Used:
+1. socket
+2. pymodbus
+3. time
+
+This code serves the same functionality as [Master](./ModBusTCP/readWithDynamicIP/readWithDynamicIPMaster/readWithDynamicIPMaster.ino). Make sure that your PC is connected to the SAME network as the ESP32 slave.
+
+In order to implement the slave, you can use [Slave](./ModBusTCP/readWithDynamicIP/readWithDynamicIPSlave/readWithDynamicIPSlave.ino) as an example.
+
+## Displaying input registers on a dashboard
+[displayOnDashboard.py](./Python%20Scripts/displayOnDashboard.py)
+
+Imports Used:
+1. socket
+2. pymodbus
+3. time
+4. threading
+5. flask
+
+An extension on the previous code, where in this case we display the input registers on a dashboard hosted on your local network using Flask.
+
+## Updating holding registers using dashboard
+[updateHoldingRegisters.py](./Python%20Scripts/updateHoldingRegisters.py)
+
+Imports Used:
+1. socket
+2. pymodbus
+3. time
+4. threading
+5. flask
+
+In order to implement write functionality via dashboard, we deploy input fields and an update button. The register addresses and count are project specific and can be changed accordinly. In order to implement the slave, please use [Slave](./ModBusTCP/writeHoldingRegisters/writeHoldingRegistersSlave/writeHoldingRegistersSlave.ino) as a reference.

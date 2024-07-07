@@ -4,15 +4,13 @@ import time
 from threading import Thread
 from flask import Flask, jsonify, render_template_string
 
-# Network settings
 UDP_PORT = 4210
 SLAVE_ID = 1
 BROADCAST_IP = '255.255.255.255'
 MODBUS_PORT = 502
 
-# Flask app setup
 app = Flask(__name__)
-register_values = [0, 0, 0, 0]  # Placeholder for register values
+register_values = [0, 0, 0, 0] 
 
 # Discover the slave IP using UDP broadcast
 def discover_slave():
@@ -34,7 +32,6 @@ def discover_slave():
     finally:
         sock.close()
 
-# Connect to the Modbus slave and read input registers
 def read_modbus_data(slave_ip):
     global register_values
     client = ModbusTcpClient(slave_ip, port=MODBUS_PORT)
@@ -42,19 +39,18 @@ def read_modbus_data(slave_ip):
 
     try:
         while True:
-            result = client.read_input_registers(1, 4, unit=1)  # Read 4 registers
+            result = client.read_input_registers(1, 4, unit=1)
             if result.isError():
                 print("Error reading input registers")
             else:
                 register_values = result.registers
                 #print(f"Input Registers: {register_values}")
-            time.sleep(0.01)  # Reduced delay to 0.1 seconds
+            time.sleep(0.01)
     except KeyboardInterrupt:
         print("Stopping Modbus read loop.")
     finally:
         client.close()
 
-# Flask route to display the values
 @app.route('/')
 def index():
     global register_values
@@ -95,21 +91,17 @@ def index():
     '''
     return render_template_string(template)
 
-# Flask route to return register values as JSON
 @app.route('/data')
 def data():
     global register_values
     return jsonify(register_values)
 
-# Main function
 def main():
     slave_ip = discover_slave()
     if slave_ip:
-        # Start Modbus data reading in a separate thread
         modbus_thread = Thread(target=read_modbus_data, args=(slave_ip,))
         modbus_thread.start()
 
-        # Start Flask server
         app.run(host='0.0.0.0', port=5000)
 
 if __name__ == "__main__":

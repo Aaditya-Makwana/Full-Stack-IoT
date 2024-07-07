@@ -2,7 +2,6 @@ import socket
 from pymodbus.client import ModbusTcpClient
 import time
 
-# Network settings
 UDP_PORT = 4210
 SLAVE_ID = 1
 BROADCAST_IP = '255.255.255.255'
@@ -28,7 +27,7 @@ def discover_slave():
     finally:
         sock.close()
 
-# Connect to the Modbus slave and read input registers
+
 def read_modbus_data(slave_ip):
     client = ModbusTcpClient(slave_ip, port=MODBUS_PORT)
     client.connect()
@@ -46,7 +45,7 @@ def read_modbus_data(slave_ip):
     finally:
         client.close()
 
-# Main function
+
 def main():
     slave_ip = discover_slave()
     if slave_ip:
