@@ -73,6 +73,64 @@ def index():
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>Modbus Data Dashboard</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            padding: 20px;
+          }
+          .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          }
+          h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #007bff;
+          }
+          .lead {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+          }
+          ul {
+            list-style: none;
+            padding: 0;
+          }
+          ul li {
+            padding: 10px;
+            background-color: #e9ecef;
+            margin-bottom: 10px;
+            border-radius: 5px;
+          }
+          ul li span {
+            font-weight: bold;
+          }
+          input[type="number"] {
+            width: calc(50% - 10px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+          }
+          button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+          button:hover {
+            background-color: #0056b3;
+          }
+        </style>
         <script>
           function fetchData() {
             fetch('/data')
