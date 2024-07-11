@@ -130,3 +130,11 @@ Imports Used:
 5. flask
 
 In order to implement write functionality via dashboard, we deploy input fields and an update button. The register addresses and count are project specific and can be changed accordinly. In order to implement the slave, please use [Slave](./ModBusTCP/writeHoldingRegisters/writeHoldingRegistersSlave/writeHoldingRegistersSlave.ino) as a reference.
+
+## Storing the register data in SQL
+[storeInAzureSQL.py](./Python%20Scripts/storeInAzureSQL.py)
+
+This script allows us to connect to Azure SQL Server, create a table, and store the register data. Make sure that your Azure SQL Server and your Azure SQL Database are setup correctly. Also make sure that your PC IP Address is configured to have access to the Azure SQL Database.
+
+Here are a few queries which we executed as examples : 
+[View the Table](https://github.com/Aaditya-Makwana/Full-Stack-IoT/blob/main/ScreenShots/SQL/viewtable.jpg)
