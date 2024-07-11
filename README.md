@@ -138,4 +138,14 @@ This script allows us to connect to Azure SQL Server, create a table, and store 
 
 Here are a few queries which we executed as examples : 
 
-<img src="https://github.com/Aaditya-Makwana/Full-Stack-IoT/blob/main/ScreenShots/SQL/viewtable.jpg" alt="View Table" width="1000" height="350">
+## Viewing the table
+<img src="https://github.com/Aaditya-Makwana/Full-Stack-IoT/blob/main/ScreenShots/SQL/viewtable.jpg" alt="View Table" width="1000" height="400">
+
+## View the table with a single constraint
+<img src="https://github.com/Aaditya-Makwana/Full-Stack-IoT/blob/main/ScreenShots/SQL/viewtablewithconstraint1.jpg" alt="View Table" width="1000" height="400">
+
+## View the table with multiple constraints
+<img src="https://github.com/Aaditya-Makwana/Full-Stack-IoT/blob/main/ScreenShots/SQL/viewtablewithconstraint2.jpg" alt="View Table" width="1000" height="400">
+
+## View the table with timestamp constraints
+<img src="https://github.com/Aaditya-Makwana/Full-Stack-IoT/blob/main/ScreenShots/SQL/querywithtimestamp.jpg" alt="View Table" width="1000" height="400">
