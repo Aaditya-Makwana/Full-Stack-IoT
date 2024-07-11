@@ -138,4 +138,4 @@ This script allows us to connect to Azure SQL Server, create a table, and store 
 
 Here are a few queries which we executed as examples : 
 
-<img src="https://github.com/Aaditya-Makwana/Full-Stack-IoT/blob/main/ScreenShots/SQL/viewtable.jpg" alt="View Table" width="250" height="250">
+<img src="https://github.com/Aaditya-Makwana/Full-Stack-IoT/blob/main/ScreenShots/SQL/viewtable.jpg" alt="View Table" width="1000" height="350">
