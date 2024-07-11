@@ -56,38 +56,100 @@ def index():
     global register_values
     template = '''
     <!doctype html>
-    <html lang="en">
-      <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Modbus Data Dashboard</title>
-        <script>
-          function fetchData() {
-            fetch('/data')
-              .then(response => response.json())
-              .then(data => {
-                document.getElementById('reg1').innerText = data[0];
-                document.getElementById('reg2').innerText = data[1];
-                document.getElementById('reg3').innerText = data[2];
-                document.getElementById('reg4').innerText = data[3];
-              });
-          }
-          setInterval(fetchData, 100); // Refresh every 0.5 second
-        </script>
-      </head>
-      <body>
-        <div class="container">
-          <h1 class="mt-5">Modbus Data Dashboard</h1>
-          <p class="lead">Displaying the values of 4 input registers:</p>
-          <ul>
-            <li>Register 1: <span id="reg1">0</span></li>
-            <li>Register 2: <span id="reg2">0</span></li>
-            <li>Register 3: <span id="reg3">0</span></li>
-            <li>Register 4: <span id="reg4">0</span></li>
-          </ul>
-        </div>
-      </body>
-    </html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Modbus Data Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+      body, html {
+        height: 100%;
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+      }
+      .bgimg {
+        background-image: url('https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=2835&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+        min-height: 100%;
+        background-position: center;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .container {
+        max-width: 600px;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        color: #03045e;
+      }
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #03045e;
+        animation: shine 2s infinite;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+      @keyframes shine {
+        0% { color: #03045e; }
+        50% { color: #007bff; }
+        100% { color: #03045e; }
+      }
+      .lead {
+        font-size: 1.25rem;
+        margin-bottom: 20px;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      ul li {
+        padding: 10px;
+        background-color: #e9ecef;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1rem;
+      }
+      ul li span {
+        font-weight: bold;
+      }
+    </style>
+    <script>
+      function fetchData() {
+        fetch('/data')
+          .then(response => response.json())
+          .then(data => {
+            document.getElementById('reg1').innerText = data[0];
+            document.getElementById('reg2').innerText = data[1];
+            document.getElementById('reg3').innerText = data[2];
+            document.getElementById('reg4').innerText = data[3];
+          });
+      }
+      setInterval(fetchData, 500); // Refresh every 0.5 second
+    </script>
+  </head>
+  <body>
+    <div class="bgimg">
+      <div class="container">
+        <h1 class="mt-5">Modbus Data Dashboard</h1>
+        <p class="lead">Displaying the values of 4 input registers:</p>
+        <ul>
+          <li>Register 1: <span id="reg1">0</span></li>
+          <li>Register 2: <span id="reg2">0</span></li>
+          <li>Register 3: <span id="reg3">0</span></li>
+          <li>Register 4: <span id="reg4">0</span></li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
+
     '''
     return render_template_string(template)
 
